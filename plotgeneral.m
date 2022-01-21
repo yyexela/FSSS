@@ -4,7 +4,7 @@
 % * What to plot:
 %    'plot2d', 'plot3d', 'plotcontour', 'fsssanalytic', 'fsssnumeric'
 %    'displacement_field'
-plot_type = 'displacement_field';
+plot_type = 'fsssnumeric';
 % * General plot properties:
 dd = 0.1;         % dd:     the step between min and max of x and y
 x_min = -10;      % x_min:  lower bound on the x axis to graph
@@ -12,7 +12,7 @@ x_max = 10;       % x_max:  upper bound on the x axis to graph
 y_min = -10;      % y_min:  lower bound on the y axis to graph
 y_max = 10;       % y_max:  upper bound on the y axis to graph
 % * plot3d properties:
-zar = 0.04;       % zar:    z-axis aspect ratio
+zar = .04;       % zar:    z-axis aspect ratio
 % * plotcontour properties:
 scale = 8;        % scale:  adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum: approximate # of gradient vectors along an axis
