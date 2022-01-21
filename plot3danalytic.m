@@ -18,4 +18,4 @@ y = (y_min:dd:y_max);
 z = evaluate2d(g, xx, yy);
 
 % Create the figure
-plot3dnumeric(z, x_min, x_max, y_min, y_max, dd, zar)
+plot3dnumeric(z, xx, yy, zar)
