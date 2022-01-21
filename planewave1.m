@@ -1,10 +1,10 @@
 function [f] = planewave1(g, axis)
-% 2D Gaussian curve function
+% Create a 2D function by stretching g along an axis
 %   Input:
-%     g:        A 1D gaussian curve function
+%     g:        A 1D function
 %     axis:     The axis to stretch along (either 'x' or 'y')
 %   Output:
-%     f:        The 1D gaussian curve function f stretched along the y-axis
+%     f:        The 1D function g stretched along the y-axis
 %               (can only be evaluated at a single point until I'm
 %                better at MATLAB, to evaluate at multiple discrete
 %                points use with evaluate2d)

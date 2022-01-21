@@ -1,4 +1,5 @@
 % Obtain the function f we'll be plotting
+% Gaussian function parameters used in @gaussian
 x_offset = 5.4;
 x_scale = 1.7;
 y_offset = 2;
