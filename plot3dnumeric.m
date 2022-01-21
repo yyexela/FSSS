@@ -1,10 +1,17 @@
-function plot3d(g, x_min, x_max, y_min, y_max, dd, zar)
+function plot3dnumeric(z, x_min, x_max, y_min, y_max, dd, zar)
+% Plots the z-values on a cube whose base has corners (x_min,x_max)
+% and (y_min,y_max)
+%   Input:
+%     z:        The 2D array containing z-values
+%     x:        either a vector or matrix of x-values
+%     y:        either a vector or matrix of y-values
+%   Output:
+%     None
 
 % Get the x and y coordinates we want the z values for
 x = (x_min:dd:x_max);
 y = (y_min:dd:y_max);
 [xx, yy] = meshgrid(x, y);
-z = evaluate2d(g, xx, yy);
 
 % Create the figure
 p = surf(xx,yy,z);
