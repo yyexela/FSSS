@@ -2,24 +2,32 @@
 
 % Properties:
 % * What to plot:
-%   ('plot2d', 'plot3d', 'plotcontour', 'fsssanalytic', or 'fsssnumeric')
-plot_type = 'fsssnumeric';
+%    'plot2d', 'plot3d', 'plotcontour', 'fsssanalytic', 'fsssnumeric'
+%    'displacement_field'
+plot_type = 'displacement_field';
 % * General plot properties:
 dd = 0.1;         % dd:     the step between min and max of x and y
-x_min = -10;        % x_min:  lower bound on the x axis to graph
+x_min = -10;      % x_min:  lower bound on the x axis to graph
 x_max = 10;       % x_max:  upper bound on the x axis to graph
-y_min = -10;        % y_min:  lower bound on the y axis to graph
+y_min = -10;      % y_min:  lower bound on the y axis to graph
 y_max = 10;       % y_max:  upper bound on the y axis to graph
 % * plot3d properties:
-zar = .05;         % zar:    z-axis aspect ratio
+zar = 0.04;       % zar:    z-axis aspect ratio
 % * plotcontour properties:
 scale = 8;        % scale:  adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum: approximate # of gradient vectors along an axis
 % * fsss properties:
-np = 1.333;       % The pattern-side index of refraction (1.333 for water)
-n = 1;            % The camera-side index of refraction (1.000 for air)
-hp = 2;           % The height of the liquid at rest
-H = 1000;         % The camera-pattern distance
+np = 1.333;       % np:     Pattern-side index of refraction (1.333 water)
+n = 1;            % n:      Camera-side index of refraction (1.000 air)
+hp = 2;           % hp:     The height of the liquid at rest
+H = 1000;         % H:      The camera-pattern distance
+% * displacement_field properties
+v_mode = 'norm';  % v_mode: Type of plot to show (ie: 'rad' or 'norm')
+scalearrow = 10;  % adjusts the length of superimposed arrows
+spacing = 0;      % Set to 0 for no arrows
+% * fsss and displacement_field shared properties:
+tpose = 1;        % tpose:  Transpose the gradient field vectors
+                  %         after loadvec()
 
 % Function properties and definitions (f(x) is 1D, g(x,y) is 2D):
 % * Gaussian function parameters used in @gaussian
@@ -71,9 +79,29 @@ elseif isequal(plot_type,'fsssnumeric')
     x = dr.x;
     y = dr.y;
     
+    if tpose
+        % Flip fx and fy due to loadvec
+        dr.fx = transpose(dr.fx);
+        dr.fy = transpose(dr.fy);
+    end
+    
     % Run the fsss equations
     h = fsss(dr, np, n, hp, H, dd);
     
     % Make the plot
     plot3dnumeric(h, x ,y, min(x), max(x), min(y), max(y), zar)
+elseif isequal(plot_type,'displacement_field')
+    % Import the data
+    dr = loadvec("openpiv.txt");
+    dr.fx = dr.vx;
+    dr.fy = dr.vy;
+    
+    if tpose
+        % Flip fx and fy due to loadvec
+        dr.fx = transpose(dr.fx);
+        dr.fy = transpose(dr.fy);
+        fprintf("Tposing!\n")
+    end
+    
+    showf(dr,v_mode,'scalearrow',scalearrow,'spacing',spacing);
 end

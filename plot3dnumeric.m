@@ -34,4 +34,4 @@ ax.DataAspectRatioMode = 'manual';
 ax.DataAspectRatio = [1,1,zar];
 
 caxis([min(z,[],'all'),max(z,[],'all')])
-colormap parula
+colormap jet
