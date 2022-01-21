@@ -1,5 +1,5 @@
 function [f] = gaussian(x_offset, x_scale, y_offset, y_scale)
-% Gaussian curve function with modifying parameters
+% 1D Gaussian curve function with modifying parameters
 %   Input:
 %     x:        Input values to the function as an array
 %     x_offset: Shift the curve x units to the right

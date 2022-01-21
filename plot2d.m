@@ -1,4 +1,4 @@
-% Obtain the function we'll be plotting
+% Obtain the function f we'll be plotting
 x_offset = 5.4;
 x_scale = 1.7;
 y_offset = 2;
@@ -16,3 +16,6 @@ p = plot(x,y);
 ax = p.Parent;
 ax.XLim = [x_offset - x_scale * 4, x_offset + x_scale * 4];
 ax.YLim = [0,max(y)+max(y)/5];
+
+xlabel('x')
+ylabel('y')
