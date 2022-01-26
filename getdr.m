@@ -20,8 +20,6 @@ alpha = 1-n/np;                  % Equation (1)
 factor = 1/(alpha * hp) - 1/H;   % Equation (13)
 h_star = 1/factor;
 
-fprintf('alpha %f factor %f h_star %f\n', alpha, factor, h_star)
-
 % Verify factor = 1/h_star > 0
 if ~(factor > 0)
     ME = MException('getdr:InvalidParameters','factor (1/h_star) = %f is not strictly positive', factor);
@@ -37,5 +35,5 @@ z = evaluate2d(g, xx, yy);
 % Equation (13) in the FSSS paper to get the displacement field from the
 % gradient
 dr = struct;
-dr.fx = -gxx*h_star;
-dr.fy = -gyy*h_star;
+dr.vx = -gxx*h_star;
+dr.vy = -gyy*h_star;

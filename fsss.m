@@ -19,20 +19,20 @@ factor = 1/(alpha * hp) - 1/H;   % Equation (13)
 
 % Find the gradient (just above equation (18))
 xi = dr;            
-xi.fx = -xi.fx*factor;
-xi.fy = -xi.fy*factor;
+xi.vx = -xi.vx*factor;
+xi.vy = -xi.vy*factor;
 
-% Verify np > n
+% Verivy np > n
 if ~(np > n)
     ME = MException('fsss:InvalidParameters','np (%f) needs to be less than n (%f)', np, n);
     throw(ME)
 end
 
-% Verify factor = 1/h_star > 0
+% Verivy factor = 1/h_star > 0
 if ~(factor > 0)
     ME = MException('fsss:InvalidParameters','factor (1/h_star) = %f is not strictly positive', factor);
     throw(ME)
 end
 
 % Solve for the surface height
-h = hp + intgrad2(xi.fx, xi.fy, dd, dd); % Equation (18)
+h = hp + intgrad2(xi.vx, xi.vy, dd, dd); % Equation (18)

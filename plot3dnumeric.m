@@ -3,8 +3,8 @@ function plot3dnumeric(z, x, y, x_min, x_max, y_min, y_max, zar)
 % and (y_min,y_max)
 %   Input:
 %     z:        The 2D array containing z-values
-%     x:        either a vector or matrix of x-values
-%     y:        either a vector or matrix of y-values
+%     x:        Either a vector or matrix of x-values
+%     y:        Either a vector or matrix of y-values
 %     x_min:    The lower bound on the x-axis of the graph
 %     x_max:    The upper bound on the x-axis of the graph
 %     y_min:    The lower bound on the y-axis of the graph
@@ -24,7 +24,7 @@ ax = p.Parent;
 
 ax.XLim = [x_min, x_max];
 ax.YLim = [y_min, y_max];
-ax.ZLim = [0,max(z,[],'all')*(1 + 1/5)];
+ax.ZLim = [min(0,min(z,[],'all')),max(z,[],'all')*(1 + 1/5)];
 
 xlabel('x')
 ylabel('y')
@@ -32,6 +32,8 @@ zlabel('z')
 
 ax.DataAspectRatioMode = 'manual';
 ax.DataAspectRatio = [1,1,zar];
+
+colorbar;
 
 caxis([min(z,[],'all'),max(z,[],'all')])
 colormap jet
