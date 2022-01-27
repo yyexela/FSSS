@@ -4,7 +4,7 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-plot_type = 'displacement_field';
+plot_type = 'fsss_numeric';
 % * General plot properties:
 dd = 0.1;         % dd:     the step between min and max of x and y
 x_min = 0;        % x_min:  lower bound on the x axis to graph
@@ -23,12 +23,14 @@ hp = 2;           % hp:     The height of the liquid at rest
 H = 1000;         % H:      The camera-pattern distance
 % * displacement_field properties
 v_mode = 'rad';   % v_mode: Type of plot to show (ie: 'rad' or 'norm')
-scalearrow = 10;  % adjusts the length of superimposed arrows
-spacing = 15;     % Set to 0 for no arrows
+s_arrow = 10;     % s_arr:  adjusts the length of superimposed arrows
+space = 15;       % space:  Set to 0 for no arrows
 % * fsss_* and displacement_field shared properties:
-tpose1 = 0;       % tpose1:  Transpose the gradient field vectors
+tpose1 = 1;       % tpose1:  Transpose the gradient field vectors
                   %          after loadvec() (numeric)
 neg1 = 0;         % neg1:    Multiply the gradient field by -1 (numeric)
+swapgxy = 1;      % swapgxy: Make sure increeasing row/column increases x/y
+                  %          after loadvec() (numeric)
 tpose2 = 0;       % tpose2:  Transpose the gradient field vectors
                   %          after getdr() (analytic)
 neg2 = 0;         % neg2:    Multiply the gradient field by -1 (analytic)
@@ -89,7 +91,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         y = dr.y;
     else
         % Import the data
-        dr = loadvec("openpiv_plane.txt");
+        dr = loadvec("openpiv.txt");
         
         if tpose1
             % Flip x and y due to loadvec
@@ -109,6 +111,12 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             dr.vy = -dr.vy;
         end
         
+        if swapgxy
+            % Swap positions of rows for the gradient matrices
+            dr.vx = swaprows(dr.vx);
+            dr.vy = swaprows(dr.vy);
+        end
+        
         % Update the x and y coordinates
         x = dr.x;
         y = dr.y;
@@ -119,7 +127,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')
-        %showf(dr,v_mode,'scalearrow',scalearrow,'spacing',spacing);
+        %showf(dr,v_mode,'s_arrow',s_arrow,'space',space);
         if isequal(v_mode, 'rad')
             % Calculate the angle in radians of each gradient vector
             z = evaluategrad('rad', dr.vx, dr.vy);
