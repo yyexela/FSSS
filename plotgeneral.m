@@ -4,15 +4,15 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-plot_type = 'fsss_numeric';
+plot_type = 'displacement_field';
 % * General plot properties:
 dd = 0.1;         % dd:     the step between min and max of x and y
-x_min = -10;      % x_min:  lower bound on the x axis to graph
-x_max = 10;       % x_max:  upper bound on the x axis to graph
-y_min = -10;      % y_min:  lower bound on the y axis to graph
-y_max = 10;       % y_max:  upper bound on the y axis to graph
+x_min = 0;        % x_min:  lower bound on the x axis to graph
+x_max = 60;       % x_max:  upper bound on the x axis to graph
+y_min = 0;        % y_min:  lower bound on the y axis to graph
+y_max = 40;       % y_max:  upper bound on the y axis to graph
 % * plot3d properties:
-zar = 0.05;       % zar:    z-axis aspect ratio (0.05 for numeric, 1 else)
+zar = .05;        % zar:    z-axis aspect ratio (0.05 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:  adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum: approximate # of gradient vectors along an axis
@@ -26,10 +26,10 @@ v_mode = 'rad';   % v_mode: Type of plot to show (ie: 'rad' or 'norm')
 scalearrow = 10;  % adjusts the length of superimposed arrows
 spacing = 15;     % Set to 0 for no arrows
 % * fsss_* and displacement_field shared properties:
-tpose1 = 1;       % tpose1:  Transpose the gradient field vectors
+tpose1 = 0;       % tpose1:  Transpose the gradient field vectors
                   %          after loadvec() (numeric)
 neg1 = 0;         % neg1:    Multiply the gradient field by -1 (numeric)
-tpose2 = 0;       % tpose1:  Transpose the gradient field vectors
+tpose2 = 0;       % tpose2:  Transpose the gradient field vectors
                   %          after getdr() (analytic)
 neg2 = 0;         % neg2:    Multiply the gradient field by -1 (analytic)
 
@@ -47,10 +47,10 @@ y_offset_s = 2;
 y_scale_s = 1/2;
 
 % * Define the functions used
-f = gaussian(x_offset_g, x_scale_g, y_offset_g, y_scale_g);
-%f = @(x) y_scale_s*sin((x-x_offset_s)/(x_scale_s)) + y_offset_s;
-%g = planewave1(f, 'y');
-g = radialwave1(f);
+%f = gaussian(x_offset_g, x_scale_g, y_offset_g, y_scale_g);
+f = @(x) y_scale_s*sin((x-x_offset_s)/(x_scale_s)) + y_offset_s;
+g = planewave1(f, 'y');
+%g = radialwave1(f);
 
 % Run the specified plot_type
 if isequal(plot_type,'plot_contour')
@@ -69,37 +69,49 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
         % Calculate the displacement field from g
         dr = getdr(g, x_min, x_max, y_min, y_max, dd, np, n, hp, H);
-        
-        % Get the x and y coordinates
-        x = (x_min:dd:x_max);
-        y = (y_min:dd:y_max);
-        
+
         if tpose2
             % Flip fx and fy due to loadvec
             dr.vx = transpose(dr.vx);
             dr.vy = transpose(dr.vy);
+            tmp = dr.x;
+            dr.x = dr.y;
+            dr.y = tmp;
         end
+        
         if neg2
             dr.vx = -dr.vx;
             dr.vy = -dr.vy;
         end
-    else
-        % Import the data
-        dr = loadvec("openpiv.txt");
         
-        % Get the x and y coordinates
+        % Update the x and y coordinates
         x = dr.x;
         y = dr.y;
+    else
+        % Import the data
+        dr = loadvec("openpiv_plane.txt");
         
         if tpose1
-            % Flip fx and fy due to loadvec
+            % Flip x and y due to loadvec
             dr.vx = transpose(dr.vx);
             dr.vy = transpose(dr.vy);
+        else
+            % If we're not transposing, make sure x is the change in
+            % columns and y is the change in rows
+            tmp = dr.x;
+            dr.x = dr.y;
+            dr.y = tmp;
         end
+        
         if neg1
+            % For testing to see what happens
             dr.vx = -dr.vx;
             dr.vy = -dr.vy;
         end
+        
+        % Update the x and y coordinates
+        x = dr.x;
+        y = dr.y;
     end
     
     % Run the fsss equations
@@ -122,9 +134,8 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         % Change the viewing angle
         view(0,90)
         
-    elseif isequal(plot_type, 'fsss_analytic')
-        plot3dnumeric(h, x, y, x_min, x_max, y_min, y_max, zar)
-    elseif isequal(plot_type, 'fsss_numeric')
+    elseif isequal(plot_type, 'fsss_analytic') || ...
+           isequal(plot_type, 'fsss_numeric')
         plot3dnumeric(h, x ,y, min(x), max(x), min(y), max(y), zar)
     elseif isequal(plot_type, 'fsss_numeric_contour') || ...
             isequal(plot_type, 'fsss_analytic_contour')

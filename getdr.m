@@ -37,3 +37,5 @@ z = evaluate2d(g, xx, yy);
 dr = struct;
 dr.vx = -gxx*h_star;
 dr.vy = -gyy*h_star;
+dr.x = x;
+dr.y = y;
