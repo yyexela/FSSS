@@ -21,7 +21,10 @@ np = 1.333;       % np:      Pattern-side index of refraction (1.333 water)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
 hp = 2;           % hp:      The height of the liquid at rest
 H = 1000;         % H:       The camera-pattern distance
-rm_pln = 1;       % rm_pln:  Subtract the plane of best fit
+rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
+                  %          FSSS integration
+rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
+                  %          after rm_m_d)
 % * displacement_field properties
 v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
 s_arrow = 10;     % s_arr:   adjusts the length of superimposed arrows
@@ -123,6 +126,10 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         % Update the x and y coordinates
         x = dr.x;
         y = dr.y;
+    end
+    
+    if rm_m_d
+        dr = removemean(dr);
     end
     
     % Run the fsss equations
