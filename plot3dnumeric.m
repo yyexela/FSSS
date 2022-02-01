@@ -22,9 +22,13 @@ p = surf(xx,yy,z);
 p.EdgeColor = 'none';
 ax = p.Parent;
 
+max_z = max(z,[],'all');
+min_z = min(z,[],'all');
+diff_z = max_z - min_z;
+
 ax.XLim = [x_min, x_max];
 ax.YLim = [y_min, y_max];
-ax.ZLim = [min(0,min(z,[],'all')),max(z,[],'all')*(1 + 1/5)];
+ax.ZLim = [min_z-diff_z*(1/5),max_z+diff_z*(1/5)];
 
 xlabel('x')
 ylabel('y')

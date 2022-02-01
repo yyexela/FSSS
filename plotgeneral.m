@@ -12,19 +12,30 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .05;        % zar:     Z-axis aspect ratio (0.05 for numeric, 1 else)
+zar = .005;       % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-np = 1.333;       % np:      Pattern-side index of refraction (1.333 water)
+%    * Experimental values
+np = 1.333;       % np:      Pattern-side index of refraction
+                  %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-hp = 2;           % hp:      The height of the liquid at rest
-H = 1000;         % H:       The camera-pattern distance
+h0 = 8;           % hp:      The height of the liquid at rest (mm)
+                  %          (For numeric FSSS this is recalculated to be
+                  %          the effective water height)
+H = 890;          % H:       The camera-pattern distance (mm)
+%    * Used to calculate effective water height
+hg = 5;           % hg:      Bottom layer height (mm)
+ng = 1.56;        % ng:      Bottom layer index of refraction
+                  %          (1.33 water 1.49 acrylic, 1.56 glass)
+%    * Processing options
 rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
                   %          after rm_m_d)
+adj_h = 1;        % adj_h:   Ensure average height is h0 (used in numeric
+                  %          FSSS when effective water height is used)
 % * displacement_field properties
 v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
 s_arrow = 10;     % s_arr:   adjusts the length of superimposed arrows
@@ -73,6 +84,11 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     if isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
+        % Analytic FSSS
+        
+        % Set the water height
+        hp = h0;
+        
         % Calculate the displacement field from g
         dr = getdr(g, x_min, x_max, y_min, y_max, dd, np, n, hp, H);
 
@@ -94,6 +110,11 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         x = dr.x;
         y = dr.y;
     else
+        % Numeric FSSS
+        
+        % Calculate effective water height
+        hp = h0 + (np./ng).*hg; % Equation (14)
+        
         % Import the data
         dr = loadvec("openpiv.txt");
         
@@ -137,6 +158,9 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     if rm_pln
         h = removeplane(h);
+    end
+    if adj_h
+        h = adjustheight(h, h0);
     end
     
     % Make the plot
