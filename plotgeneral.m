@@ -6,25 +6,26 @@
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
 plot_type = 'fsss_numeric';
 % * General plot properties:
-dd = 0.1;         % dd:     the step between min and max of x and y
-x_min = 0;        % x_min:  lower bound on the x axis to graph
-x_max = 60;       % x_max:  upper bound on the x axis to graph
-y_min = 0;        % y_min:  lower bound on the y axis to graph
-y_max = 40;       % y_max:  upper bound on the y axis to graph
+dd = 0.1;         % dd:      The step between min and max of x and y
+x_min = 0;        % x_min:   Lower bound on the x axis to graph
+x_max = 60;       % x_max:   Upper bound on the x axis to graph
+y_min = 0;        % y_min:   Lower bound on the y axis to graph
+y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .05;        % zar:    z-axis aspect ratio (0.05 for numeric, 1 else)
+zar = .05;        % zar:     Z-axis aspect ratio (0.05 for numeric, 1 else)
 % * plotcontour properties:
-scale = 8;        % scale:  adjusts the length of the gradient arrows
-vecnum = 20;      % vecnum: approximate # of gradient vectors along an axis
+scale = 8;        % scale:   Adjusts the length of the gradient arrows
+vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-np = 1.333;       % np:     Pattern-side index of refraction (1.333 water)
-n = 1;            % n:      Camera-side index of refraction (1.000 air)
-hp = 2;           % hp:     The height of the liquid at rest
-H = 1000;         % H:      The camera-pattern distance
+np = 1.333;       % np:      Pattern-side index of refraction (1.333 water)
+n = 1;            % n:       Camera-side index of refraction (1.000 air)
+hp = 2;           % hp:      The height of the liquid at rest
+H = 1000;         % H:       The camera-pattern distance
+rm_pln = 1;       % rm_pln:  Subtract the plane of best fit
 % * displacement_field properties
-v_mode = 'rad';   % v_mode: Type of plot to show (ie: 'rad' or 'norm')
-s_arrow = 10;     % s_arr:  adjusts the length of superimposed arrows
-space = 15;       % space:  Set to 0 for no arrows
+v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
+s_arrow = 10;     % s_arr:   adjusts the length of superimposed arrows
+space = 15;       % space:   Set to 0 for no arrows
 % * fsss_* and displacement_field shared properties:
 tpose1 = 1;       % tpose1:  Transpose the gradient field vectors
                   %          after loadvec() (numeric)
@@ -117,6 +118,8 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             dr.vy = swaprows(dr.vy);
         end
         
+        %dr.vy = -dr.vy;
+        
         % Update the x and y coordinates
         x = dr.x;
         y = dr.y;
@@ -124,6 +127,10 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     % Run the fsss equations
     h = fsss(dr, np, n, hp, H, dd);
+    
+    if rm_pln
+        h = removeplane(h);
+    end
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')
