@@ -34,7 +34,7 @@ rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
                   %          after rm_m_d)
-adj_h = 1;        % adj_h:   Ensure average height is h0 (used in numeric
+adj_h = 0;        % adj_h:   Ensure average height is h0 (used in numeric
                   %          FSSS when effective water height is used)
 % * displacement_field properties
 v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
