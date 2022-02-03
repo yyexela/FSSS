@@ -4,7 +4,7 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-plot_type = 'fsss_numeric';
+plot_type = 'fsss_analytic';
 % * General plot properties:
 dd = 0.1;         % dd:      The step between min and max of x and y
 x_min = 0;        % x_min:   Lower bound on the x axis to graph
@@ -12,7 +12,7 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .005;       % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .01;       % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
@@ -34,7 +34,7 @@ rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
                   %          after rm_m_d)
-adj_h = 0;        % adj_h:   Ensure average height is h0 (used in numeric
+adj_h = 1;        % adj_h:   Ensure average height is h0 (used in numeric
                   %          FSSS when effective water height is used)
 % * displacement_field properties
 v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
@@ -154,7 +154,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     end
     
     % Run the fsss equations
-    h = fsss(dr, np, n, hp, H, dd);
+    h = fsss(dr, np, n, hp, H);
     
     if rm_pln
         h = removeplane(h);

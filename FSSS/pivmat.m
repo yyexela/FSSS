@@ -21,7 +21,7 @@ hp = h0 + (np./ng).*hg;
 dr = removemean(dr);
 
 % Get FSSS Height and set the average height to what we expect
-h = surfheight(dr, hp, 890, np);
+h = surfheight2(dr, hp, 890, np);
 h.w = adjustheight(h.w, h0);
 
 % Plot the height
