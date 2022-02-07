@@ -1,13 +1,14 @@
 % For directories, ensure '/' is at the end
 Trial = "1";
-input_dir = "Trial " + Trial + "/Raw/";
-output_dir = "Trial " + Trial + "/Aligned/";
+dir = "../Experiment Images/";
+input_dir = dir + "Raw/";
+output_dir = dir + "Aligned/";
 extension = ".JPG";
 
 % This is the reference image for all other images
-ref_img_name = "IMG_0008";
+ref_img_name = "still";
 % This is the image we are transforming to fit ref_img_name
-trs_img_name = "IMG_0011";
+trs_img_name = "empty";
 
 % Read images (ref = reference, trs = the one to transform)
 % Converts images to grayscale
