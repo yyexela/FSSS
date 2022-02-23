@@ -1,4 +1,4 @@
-function [m1] = split(m0,n)
+function [m1] = splitmat(m0,n)
 % Given a matrix, set every row and column that isn't a multiple of n
 % to 0, this removes (n^2-1)/n^2 of the data in the matrix
 % (This is useful for plotting the gradient on a contour plot)

@@ -33,5 +33,5 @@ end
 
 % Superimpose the gradient field
 hold on
-quiver(xx,yy,split(gxx,n),split(gyy,n),scale)
+quiver(xx,yy,splitmat(gxx,n),splitmat(gyy,n),scale)
 hold off
