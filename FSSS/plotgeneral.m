@@ -5,8 +5,8 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-%    'fsss_2021'
-plot_type = 'fsss_numeric';
+%    'fsss_2021' (fsss_2021 currently doesn't work)
+plot_type = 'fsss_2021';
 % * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
 x_min = 0;        % x_min:   Lower bound on the x axis to graph
