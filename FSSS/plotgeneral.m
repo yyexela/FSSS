@@ -117,8 +117,7 @@ elseif isequal(plot_type, 'fsss_2021')
     % https://www.mathworks.com/help/optim/ug/fsolve.html
     %options = optimoptions('fsolve','Display','off');
     fun = @(h) fsss2021(h, n, np, beta, dr2);
-    [x,fval,exitflag,output] = fsolve(fun,h_guess)
-    sum(sum(fval.*fval))
+    fsolve(fun,h_guess);
     
 elseif isequal(plot_type,'fsss_analytic') || ...
         isequal(plot_type,'fsss_numeric') || ...
