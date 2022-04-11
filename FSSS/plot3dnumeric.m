@@ -30,12 +30,13 @@ ax.XLim = [x_min, x_max];
 ax.YLim = [y_min, y_max];
 ax.ZLim = [min_z-diff_z*(1/5),max_z+diff_z*(1/5)];
 
-xlabel('x')
-ylabel('y')
-zlabel('z')
+xlabel('x (mm)')
+ylabel('y (mm)')
+zlabel('h (mm)')
 
 ax.DataAspectRatioMode = 'manual';
 ax.DataAspectRatio = [1,1,zar];
+ax.FontSize = 12;
 
 colorbar;
 

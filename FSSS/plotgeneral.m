@@ -1,12 +1,13 @@
 % The main script used for plotting and calculating everything
+% Note: To save the figure, run `print(gcf,'foo.png','-dpng','-r600')`
 
 % Properties:
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
 %    'fsss_2021'
-plot_type = 'fsss_2021';
-% * General plot properties:
+plot_type = 'fsss_numeric';
+% * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
 x_min = 0;        % x_min:   Lower bound on the x axis to graph
 x_max = 60;       % x_max:   Upper bound on the x axis to graph
@@ -38,7 +39,7 @@ rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
 adj_h = 1;        % adj_h:   Ensure average height is h0 (used in numeric
                   %          FSSS when effective water height is used)
 % * displacement_field properties
-v_mode = 'rad';   % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
+v_mode = 'norm';  % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
 s_arrow = 10;     % s_arr:   adjusts the length of superimposed arrows
 space = 15;       % space:   Set to 0 for no arrows
 % * fsss_* and displacement_field shared properties:
@@ -231,4 +232,3 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         plotcontournumeric(h, x, y, dd, vecnum, scale)
     end
 end
-
