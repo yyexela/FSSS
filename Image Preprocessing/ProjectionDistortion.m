@@ -6,9 +6,9 @@ output_dir = dir + "Aligned/";
 extension = ".JPG";
 
 % This is the reference image for all other images
-ref_img_name = "still";
+ref_img_name = "still_tbl";
 % This is the image we are transforming to fit ref_img_name
-trs_img_name = "empty";
+trs_img_name = "moving_tbl";
 
 % Read images (ref = reference, trs = the one to transform)
 % Converts images to grayscale
