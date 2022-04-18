@@ -14,16 +14,18 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .03;       % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .01;        % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
+filenm = "fsss";
+                  % filenm:    Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 8;           % hp:      The height of the liquid at rest (mm)
+h0 = 8;          % hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
 H = 890;          % H:       The camera-pattern distance (mm)
@@ -159,7 +161,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         hp = h0 + (np./ng).*hg; % Equation (14)
         
         % Import the data
-        dr = loadvec("openpiv.txt");
+        dr = loadvec(filenm + ".txt");
         
         if tpose1
             % Flip x and y due to loadvec
