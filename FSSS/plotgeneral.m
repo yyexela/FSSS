@@ -14,24 +14,24 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .01;        % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .1;        % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "water_drop_naligned";
+filenm = "fsss";
                   % filenm:    Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 8;          % hp:      The height of the liquid at rest (mm)
+h0 = 0.75;        % hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
-H = 890;          % H:       The camera-pattern distance (mm)
+H = 1330;         % H:       The camera-pattern distance (mm)
 %    * Used to calculate effective water height
-hg = 5;           % hg:      Bottom layer height (mm)
-ng = 1.56;        % ng:      Bottom layer index of refraction
+hg = 5.5;         % hg:      Bottom layer height (mm)
+ng = 1.49;        % ng:      Bottom layer index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 %    * Processing options
 rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
