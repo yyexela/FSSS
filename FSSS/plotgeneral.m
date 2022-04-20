@@ -14,12 +14,12 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .05;         % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .1;         % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "gc_3_2";
+filenm = "gc_1";
                   % filenm:    Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
