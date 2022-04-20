@@ -9,23 +9,23 @@
 plot_type = 'fsss_numeric';
 % * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 0;        % x_min:   Lower bound on the x axis to graph
+x_min = 0;        % x_mixn:   Lower bound on the x axis to graph
 x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .1;        % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .05;         % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "fsss";
+filenm = "gc_3_2";
                   % filenm:    Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 0.75;        % hp:      The height of the liquid at rest (mm)
+h0 = 4;           % hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
 H = 1330;         % H:       The camera-pattern distance (mm)

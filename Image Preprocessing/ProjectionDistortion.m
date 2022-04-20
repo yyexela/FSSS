@@ -6,9 +6,9 @@ output_dir = dir + "Aligned/";
 extension = ".JPG";
 
 % This is the reference image for all other images
-ref_img_name = "still_tbl";
+ref_img_name = "gc_still_3";
 % This is the image we are transforming to fit ref_img_name
-trs_img_name = "moving_tbl";
+trs_img_name = "gc_moving_3";
 
 % Read images (ref = reference, trs = the one to transform)
 % Converts images to grayscale
@@ -29,15 +29,15 @@ if ~exist('mp','var') || ~exist('fp','var') || ~isempty(input('Press ENTER to sk
 end
 
 % Infer geometric transformation
-t = fitgeotrans(mp,fp,'projective');
+t = fitgeotrans(mp,fp,'nonreflectivesimilarity');
 
 % Transform trs Image
 Rfixed = imref2d(size(ref));
 reg = imwarp(trs,t,'OutputView',Rfixed);
 
 % Write to file
-ref_out_path = convertStringsToChars(fullfile(output_dir, ref_img_name + "_ref_prj" + extension));
-reg_out_path = convertStringsToChars(fullfile(output_dir, trs_img_name + "_reg_prj" + extension));
+ref_out_path = convertStringsToChars(fullfile(output_dir, ref_img_name + "_ref_nrs" + extension));
+reg_out_path = convertStringsToChars(fullfile(output_dir, trs_img_name + "_reg_nrs" + extension));
 imwrite(ref, ref_out_path)
 imwrite(reg, reg_out_path)
 

@@ -6,10 +6,10 @@ extension = ".png";
 
 % This is the reference image for all other images
 %still_img = "StillEdit";
-img_1 = "water_drop_still_naligned";
+img_1 = "gc_still_3_2";
 % This is the image we are transforming to fit still_img
 %moving_img = "MovingEdit";
-img_2 = "water_drop_moving_naligned";
+img_2 = "gc_moving_3_2";
 
 img_1_mat = imread(input_dir_1 + img_1 + extension);
 img_2_mat = imread(input_dir_2 + img_2 + extension);
