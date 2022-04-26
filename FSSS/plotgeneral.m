@@ -19,7 +19,7 @@ zar = .1;         % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "gc_1";
+filenm = "gc_3_3";
                   % filenm:    Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction

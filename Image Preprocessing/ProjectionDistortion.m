@@ -36,8 +36,8 @@ Rfixed = imref2d(size(ref));
 reg = imwarp(trs,t,'OutputView',Rfixed);
 
 % Write to file
-ref_out_path = convertStringsToChars(fullfile(output_dir, ref_img_name + "_ref_nrs" + extension));
-reg_out_path = convertStringsToChars(fullfile(output_dir, trs_img_name + "_reg_nrs" + extension));
+ref_out_path = convertStringsToChars(fullfile(output_dir, ref_img_name + "_ref_nrs_2" + extension));
+reg_out_path = convertStringsToChars(fullfile(output_dir, trs_img_name + "_reg_nrs_2" + extension));
 imwrite(ref, ref_out_path)
 imwrite(reg, reg_out_path)
 
