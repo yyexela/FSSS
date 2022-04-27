@@ -1,19 +1,19 @@
 % For directories, ensure '/' is at the end
-Trial = "1";
-dir = "../Experiment Images/";
-input_dir = dir + "Raw/";
-output_dir = dir + "Aligned/";
+dir = "../../Experiment 11/";
+trial = "trial 10/";
+input_dir = dir + trial + "raw/";
+output_dir = dir + trial + "aligned/";
 extension = ".JPG";
 
 % This is the reference image for all other images
-ref_img_name = "gc_still_3";
+ref_img_name = "IMG_0133";
 % This is the image we are transforming to fit ref_img_name
-trs_img_name = "gc_moving_3";
+trs_img_name = "IMG_0149";
 
 % Read images (ref = reference, trs = the one to transform)
 % Converts images to grayscale
-ref_in_path = convertStringsToChars(fullfile(input_dir, ref_img_name + extension));
-trs_in_path = convertStringsToChars(fullfile(input_dir, trs_img_name + extension));
+ref_in_path = convertStringsToChars(fullfile(input_dir + "still", ref_img_name + extension));
+trs_in_path = convertStringsToChars(fullfile(input_dir + "moving", trs_img_name + extension));
 ref = rgb2gray(imread(ref_in_path));
 trs = rgb2gray(imread(trs_in_path));
 
@@ -36,8 +36,8 @@ Rfixed = imref2d(size(ref));
 reg = imwarp(trs,t,'OutputView',Rfixed);
 
 % Write to file
-ref_out_path = convertStringsToChars(fullfile(output_dir, ref_img_name + "_ref_nrs_2" + extension));
-reg_out_path = convertStringsToChars(fullfile(output_dir, trs_img_name + "_reg_nrs_2" + extension));
+ref_out_path = convertStringsToChars(fullfile(output_dir + "still", ref_img_name + "_ref_nrs" + extension));
+reg_out_path = convertStringsToChars(fullfile(output_dir + "moving", trs_img_name + "_reg_nrs" + extension));
 imwrite(ref, ref_out_path)
 imwrite(reg, reg_out_path)
 

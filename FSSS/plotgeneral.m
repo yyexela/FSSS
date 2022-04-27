@@ -9,25 +9,26 @@
 plot_type = 'fsss_numeric';
 % * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 0;        % x_mixn:   Lower bound on the x axis to graph
+x_min = 0;        % x_mixn:  Lower bound on the x axis to graph
 x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .1;         % zar:     Z-axis aspect ratio (0.005 for numeric, 1 else)
+zar = .05;         % zar:     Z-axis aspect ratio
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "gc_3_3";
-                  % filenm:    Name of the vector field file from OpenPIV
+filenm = "trial_10";
+                  % filenm:  Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 4;           % hp:      The height of the liquid at rest (mm)
+h0 = 2.5;         % hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
+                  %          When < 0, set h0 so minimum is zero
 H = 1330;         % H:       The camera-pattern distance (mm)
 %    * Used to calculate effective water height
 hg = 5.5;         % hg:      Bottom layer height (mm)
@@ -38,8 +39,10 @@ rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
                   %          after rm_m_d)
-adj_h = 1;        % adj_h:   Ensure average height is h0 (used in numeric
+avg_h = 0;        % avg_h:   Ensure average height is h0 (used in numeric
                   %          FSSS when effective water height is used)
+min_h = 1;        % min_h:   Ensure minimum height is at least 0
+ups_h = 1;        % ups_h:   Set upstream height to h0
 % * displacement_field properties
 v_mode = 'norm';  % v_mode:  Type of plot to show (ie: 'rad' or 'norm')
 s_arrow = 10;     % s_arr:   adjusts the length of superimposed arrows
@@ -165,6 +168,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         
         if tpose1
             % Flip x and y due to loadvec
+            fprintf("Transposing displacement field\n")
             dr.vx = transpose(dr.vx);
             dr.vy = transpose(dr.vy);
         else
@@ -177,17 +181,17 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         
         if neg1
             % For testing to see what happens
+            fprintf("Negative every element of displacement field\n")
             dr.vx = -dr.vx;
             dr.vy = -dr.vy;
         end
         
         if swapgxy
             % Swap positions of rows for the gradient matrices
+            fprintf("Swapping rows of displacement field\n")
             dr.vx = swaprows(dr.vx);
             dr.vy = swaprows(dr.vy);
         end
-        
-        %dr.vy = -dr.vy;
         
         % Update the x and y coordinates
         x = dr.x;
@@ -195,17 +199,35 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     end
     
     if rm_m_d
+        fprintf("Subtracting mean displacement field\n")
         dr = removemean(dr);
+    end
+    
+    if ismember(1, isnan(dr.vx)) || ismember(1, isnan(dr.vy))
+        ME = MException('plotgeneral:InvalidDr','dr has NaN elements');
+        throw(ME)
     end
     
     % Run the fsss equations
     h = fsss(dr, np, n, hp, H);
+    % Remove layer between water and pattern
+    h = arrayfun(@(z) z - hg, h);
     
     if rm_pln
+        fprintf("Subtracting plane of best fit\n")
         h = removeplane(h);
     end
-    if adj_h
-        h = adjustheight(h, h0);
+    if avg_h || min_h || ups_h
+        if avg_h
+            fprintf("Adjusting surface height so the average height is h0 (%f mm)\n", h0)
+        end
+        if min_h
+            fprintf("Adjusting surface height so the minimum height is at least zero\n")
+        end
+        if ups_h
+            fprintf("Adjusting surface height so the upstream water height is h0 (%f mm)\n", h0)
+        end
+        h = adjustheight(h, h0, avg_h, min_h, ups_h);
     end
     
     % Make the plot
