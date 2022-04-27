@@ -19,7 +19,7 @@ zar = .05;         % zar:     Z-axis aspect ratio
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "trial_10_set";
+filenm = "trial_10_nan";
                   % filenm:  Name of the vector field file from OpenPIV
 %    * Experimental values
 np = 1.333;       % np:      Pattern-side index of refraction
@@ -35,6 +35,7 @@ hg = 5.5;         % hg:      Bottom layer height (mm)
 ng = 1.49;        % ng:      Bottom layer index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 %    * Processing options
+wedge_h = 3.7;    % wedge_h: Height of wedge (mm) added in post-processing
 rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
@@ -203,10 +204,10 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         dr = removemean(dr);
     end
     
-    if ismember(1, isnan(dr.vx)) || ismember(1, isnan(dr.vy))
-        ME = MException('plotgeneral:InvalidDr','dr has NaN elements');
-        throw(ME)
-    end
+    % Make a copy of dr to use in FSSS, replacing NaN with 0, but using NaN
+    % dr to add wedge heights to final surface height
+    dr_map = dr;
+    dr = replace_nan(dr);
     
     % Run the fsss equations
     h = fsss(dr, np, n, hp, H);
@@ -229,6 +230,8 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         end
         h = adjustheight(h, h0, avg_h, min_h, ups_h);
     end
+    
+    h = add_wedge(h, dr_map, wedge_h);
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')

@@ -22,8 +22,8 @@ p = surf(xx,yy,z);
 p.EdgeColor = 'none';
 ax = p.Parent;
 
-max_z = max(z,[],'all');
-min_z = min(z,[],'all');
+max_z = max(z,[],'all', 'omitnan');
+min_z = min(z,[],'all', 'omitnan');
 diff_z = max_z - min_z;
 
 ax.XLim = [x_min, x_max];
