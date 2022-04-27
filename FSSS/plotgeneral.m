@@ -14,7 +14,7 @@ x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
-zar = .05;         % zar:     Z-axis aspect ratio
+zar = .05;        % zar:     Z-axis aspect ratio
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
@@ -231,7 +231,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         h = adjustheight(h, h0, avg_h, min_h, ups_h);
     end
     
-    h = add_wedge(h, dr_map, wedge_h);
+    h = add_wedge(h, dr_map.vx, wedge_h);
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')
