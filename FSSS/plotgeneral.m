@@ -21,7 +21,10 @@ vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
 filenm = "trial_10_nan";
                   % filenm:  Name of the vector field file from OpenPIV
+raw_img = "../../Experiment 11/trial 10/cropped/still/IMG_0133_ref_nrs_smol.png";
+                  % raw_img: Used in get_map for wedge location
 %    * Experimental values
+ppmm = 17.327;    % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
@@ -231,7 +234,10 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         h = adjustheight(h, h0, avg_h, min_h, ups_h);
     end
     
-    h = add_wedge(h, dr_map.vx, wedge_h);
+    % Get NaN values from where raw_img is red, NaN values used to create
+    % wedge in surface reconstruction
+    map = get_map(dr, raw_img, ppmm);
+    h = add_wedge(h, map, wedge_h);
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')
