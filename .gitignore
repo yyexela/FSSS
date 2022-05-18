@@ -1,4 +1,5 @@
 *.asv
 intgrad2.m
 OpenPIV/.*ipynb_checkpoints/**
-OpenPIV/*.txt
+OpenPIV/**/*.txt
+OpenPIV/__pycache__/**
