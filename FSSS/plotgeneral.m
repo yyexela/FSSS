@@ -5,7 +5,7 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-%    'fsss_2021' (fsss_2021 currently doesn't work)
+%    'fsss_2021' (fsss_2021 currently doesn't work), 'fsss_pivmat'
 plot_type = 'fsss_numeric';
 % * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
@@ -19,10 +19,10 @@ zar = .05;        % zar:     Z-axis aspect ratio
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
-filenm = "trial_10_nan";
                   % filenm:  Name of the vector field file from OpenPIV
-raw_img = "../../Experiment 11/trial 10/cropped/still/IMG_0133_ref_nrs_smol.png";
+filenm = "trial_10_nan";
                   % raw_img: Used in get_map for wedge location
+raw_img = "../../Experiment 11/trial 10/cropped/still/IMG_0133_ref_nrs_smol.png";
 %    * Experimental values
 ppmm = 17.327;    % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction
@@ -38,7 +38,6 @@ hg = 5.5;         % hg:      Bottom layer height (mm)
 ng = 1.49;        % ng:      Bottom layer index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 %    * Processing options
-wedge_h = 3.7;    % wedge_h: Height of wedge (mm) added in post-processing
 rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
@@ -87,6 +86,31 @@ elseif isequal(plot_type,'plot_2d')
     plot2d(f, x_min, x_max, y_min, y_max)
 elseif isequal(plot_type,'plot_3d')
     plot3danalytic(g, x_min, x_max, y_min, y_max, dd, zar)
+elseif isequal(plot_type, 'fsss_pivmat')
+    % Calculate effective water height
+    hp = h0 + (np./ng).*hg; % Equation (14)
+    
+    % Load displacement field
+    dr = loadvec(filenm + ".txt");
+    
+    dr.vy = swapcols(dr.vy);
+    dr.vx = swapcols(dr.vx);
+    
+    % Replacing NaN with 0
+    dr = replace_nan(dr);
+    
+    if rm_m_d
+        fprintf("Subtracting mean displacement field\n")
+        dr = removemean(dr);
+    end
+    
+    h = surfheight(dr, hp, H, np, 'test', 'submean');
+    
+    % Remove layer between water and pattern
+    h.w = arrayfun(@(z) z - hg, h.w);
+    
+    showf(h, 'surf');
+    
 elseif isequal(plot_type, 'fsss_2021')
     % Li, Avila, and Xu's 2021 FSSS method
     % Notes:
@@ -127,7 +151,6 @@ elseif isequal(plot_type, 'fsss_2021')
     %options = optimoptions('fsolve','Display','off');
     fun = @(h) fsss2021(h, n, np, beta, dr2);
     fsolve(fun,h_guess);
-    
 elseif isequal(plot_type,'fsss_analytic') || ...
         isequal(plot_type,'fsss_numeric') || ...
         isequal(plot_type,'fsss_numeric_contour') || ...
@@ -237,6 +260,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     % Get NaN values from where raw_img is red, NaN values used to create
     % wedge in surface reconstruction
     map = get_map(dr, raw_img, ppmm);
+    wedge_h = max(h,[],'all', 'omitnan'); % Wedge height is max water height
     h = add_wedge(h, map, wedge_h);
     
     % Make the plot

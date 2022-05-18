@@ -6,7 +6,7 @@ function [m] = swaprows(m1)
 %   Output:
 %     m:        The input matrix but the row positions are reversed
 
-% Get the dimenstions of the input matrix
+% Get the dimensions of the input matrix
 [nx, ny] = size(m1);
 
 % Create the output matrix
