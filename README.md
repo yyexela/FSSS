@@ -1,6 +1,7 @@
 # Requirements
 * Make sure [pivmat](http://www.fast.u-psud.fr/pivmat/) is installed so that the `loadvec` function works directly from the MATLAB terminal.
 * Also make sure that the `/FSSS` folder has the file `intgrad2.m` downloaded from the [MATLAB file exchange](https://www.mathworks.com/matlabcentral/fileexchange/9734-inverse-integrated-gradient?s_tid=srchtitle) or copied over from the private directory in [pivmat](http://www.fast.u-psud.fr/pivmat/)'s toolbox.
+* We'll also be using [Jupyter](https://jupyter.org/) notebooks.
 
 # Instructions
 
@@ -40,7 +41,7 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 * Make sure to take images of the waves you are interested in (our *moving* images) along with images with no surface disturbances (our *still* images).
 * Also make sure to record the surface height of the water for the still images, you may need to run the still image experiment twice, once for the images and another time for the surface height.
 
-#### Considerations
+### Considerations
 * Try to reduce vibrations for the camera as much as possible, since slight deviations between images will result in large errors in FSSS.
 * If the wedge is in the moving image, outline the area of the wedge in the moving image, fill that area with pure red (#FF00000) and make sure that same area is also red in the still image.
 
@@ -53,7 +54,7 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 * Close the window when you're done and the program will spit out your still and moving image, except they're aligned better.
 * `/ImageProcessing/red_cyan.m` shows the two images overlayed, getting a better sense of how well the image registration worked. Similar code is run after you do the fit in `/ImageProcessing/ProjectionDistortion.m`.
 
-#### Considerations
+### Considerations
 * Make sure the directories you read and write from are what you expect.
 * I had the still images as the reference image, so the moving image was fit to the still image.
 * I couldn't think of a clever way to automate this, but it could probably be done! (QR codes instead of zip-ties maybe?).
@@ -66,7 +67,7 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 * You'll be asked to input a value for the signal to noise ratio cut-off, I used values around 0.9-1.2 (1.0 normally).
 * The notebook will then spit out a displacement field file, normally `fsss.txt` which contains the displacement field.
 
-#### Considerations
+### Considerations
 * There's a lot going on in this file in terms of customizability, though I found the settings I normally used were sufficient 99% of the time
 * There is a regular python file `OpenPIV/OpenPIV.py` which doesn't have a graphical interface, used for batch processing.
 
