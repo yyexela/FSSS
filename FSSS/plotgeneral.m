@@ -20,10 +20,10 @@ scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
-filenm = "s10_m10";
-seconds = 10;
+filenm = "s11_m11";
+seconds = 11;
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 12/trial 2/cropped/still/10.JPG";
+raw_img = "../../Experiment 12/trial 7/cropped/still/12.JPG";
 %    * Experimental values
 ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction
