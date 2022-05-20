@@ -18,7 +18,8 @@ for i=1:size(map,1)
         % Calculate pixel position in img from physical quantities
         r = floor((dr.y(1)+scaley*(i-1))*ppmm);% Pixel column position
         c = floor((dr.x(1)+scalex*(j-1))*ppmm);% Pixel row position
-        if img(r,c,1) == 255 && img(r,c,2) == 0 && img(r,c,3) == 0
+        % 254 for JPG 255 for PNG
+        if img(r,c,1) == 254 && img(r,c,2) == 0 && img(r,c,3) == 0
             map(i,j) = NaN;
         end
     end

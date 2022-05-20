@@ -20,15 +20,16 @@ scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
-filenm = "trial_10_nan";
+filenm = "s10_m10";
+seconds = 10;
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 11/trial 10/cropped/still/IMG_0133_ref_nrs_smol.png";
+raw_img = "../../Experiment 12/trial 2/cropped/still/10.JPG";
 %    * Experimental values
-ppmm = 17.327;    % ppmm:    Pixels per millimeter in used in OpenPIV
+ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 2.5;         % hp:      The height of the liquid at rest (mm)
+h0 = 4 - seconds/10;% hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
                   %          When < 0, set h0 so minimum is zero
@@ -259,7 +260,7 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     % Get NaN values from where raw_img is red, NaN values used to create
     % wedge in surface reconstruction
-    map = get_map(dr, raw_img, ppmm);
+    map = get_map(dr, raw_img, ppmm); % See get_map for JPG/PNG differences
     wedge_h = max(h,[],'all', 'omitnan'); % Wedge height is max water height
     h = add_wedge(h, map, wedge_h);
     
