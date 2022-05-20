@@ -259,9 +259,11 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     
     % Get NaN values from where raw_img is red, NaN values used to create
     % wedge in surface reconstruction
-    map = get_map(dr, raw_img, ppmm); % See get_map for JPG/PNG differences
-    wedge_h = max(h,[],'all', 'omitnan'); % Wedge height is max water height
-    h = add_wedge(h, map, wedge_h);
+    if ~isequal(raw_img, '')
+        map = get_map(dr, raw_img, ppmm); % See get_map for JPG/PNG differences
+        wedge_h = max(h,[],'all', 'omitnan'); % Wedge height is max water height
+        h = add_wedge(h, map, wedge_h);
+    end
     
     % Make the plot
     if isequal(plot_type, 'displacement_field')
