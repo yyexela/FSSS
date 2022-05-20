@@ -19,7 +19,7 @@ for i=1:size(map,1)
         r = floor((dr.y(1)+scaley*(i-1))*ppmm);% Pixel column position
         c = floor((dr.x(1)+scalex*(j-1))*ppmm);% Pixel row position
         % 254 for JPG 255 for PNG
-        if img(r,c,1) == 254 && img(r,c,2) == 0 && img(r,c,3) == 0
+        if img(r,c,1) >= 254 && img(r,c,2) == 0 && img(r,c,3) == 0
             map(i,j) = NaN;
         end
     end

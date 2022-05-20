@@ -20,16 +20,15 @@ scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
-filenm = "s11_m11";
-seconds = 11;
+filenm = "fsss";
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 12/trial 7/cropped/still/12.JPG";
+raw_img = "../../Experiment 11/trial 11/cropped/moving/10.JPG";
 %    * Experimental values
 ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 n = 1;            % n:       Camera-side index of refraction (1.000 air)
-h0 = 4 - seconds/10;% hp:      The height of the liquid at rest (mm)
+h0 = 2.5;         % hp:      The height of the liquid at rest (mm)
                   %          (For numeric FSSS this is recalculated to be
                   %          the effective water height)
                   %          When < 0, set h0 so minimum is zero
