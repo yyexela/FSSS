@@ -5,11 +5,11 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-%    'fsss_pivmat'
-plot_type = 'fsss_numeric';
-% * General plot properties: 
+%    'fsss_pivmat', 'fsss_edge'
+plot_type = 'fsss_edge';
+% * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 0;        % x_mixn:  Lower bound on the x axis to graph
+x_min = 25;       % x_mixn:  Lower bound on the x axis to graph
 x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
@@ -18,11 +18,19 @@ zar = .05;        % zar:     Z-axis aspect ratio
 % * plotcontour properties:
 scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
+% * fsss_edge properties (x_min and x_max used above):
+                  % slope:   Slope of line of best fit
+slope = 0.7086833288739993;
+                  % inter:   Y-intercept of line of best fit
+inter = 10.962592982053945;
+full = 0;         % full:    Ignore y_min/y_max
+below = 10;       % below: threshold below line of best fit
+above = 10;       % above: threshold above line of best fit
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
-filenm = "s15_m15";
+filenm = "s13_m13";
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 12/trial 2/cropped/moving/15.JPG";
+raw_img = "../../Experiment 12/trial 2/cropped/moving/13.JPG";
 seconds = 15;
 %    * Experimental values
 ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
@@ -84,7 +92,7 @@ g = planewave1(f, 'y');
 if isequal(plot_type,'plot_contour')
     plotcontouranalytic(g, x_min, x_max, y_min, y_max, dd, vecnum, scale)
 elseif isequal(plot_type,'plot_2d')
-    plot2d(f, x_min, x_max, y_min, y_max)
+    plot2danalytic(f, x_min, x_max, y_min, y_max)
 elseif isequal(plot_type,'plot_3d')
     plot3danalytic(g, x_min, x_max, y_min, y_max, dd, zar)
 elseif isequal(plot_type, 'fsss_pivmat')
@@ -115,7 +123,8 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         isequal(plot_type,'fsss_numeric') || ...
         isequal(plot_type,'fsss_numeric_contour') || ...
         isequal(plot_type,'fsss_analytic_contour') || ...
-        isequal(plot_type,'displacement_field')
+        isequal(plot_type,'displacement_field') || ...
+        isequal(plot_type,'fsss_edge')
     
     if isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
@@ -248,6 +257,29 @@ elseif isequal(plot_type,'fsss_analytic') || ...
     elseif isequal(plot_type, 'fsss_numeric_contour') || ...
             isequal(plot_type, 'fsss_analytic_contour')
         plotcontournumeric(h, x, y, dd, vecnum, scale)
+    elseif isequal(plot_type, 'fsss_edge')
+        % X-axis in plot is the y-axis in FSSS
+        % Height of the plot is z
+        % Get first index of x greater than x_min (slice FSSS along x-axis)
+        idx = find(x > x_min, 1);
+        z = h(:,idx);
+        
+        % Get the upper and lower bound of the plot's x-axis
+        if full
+        	y_max = max(y,[],'all', 'omitnan');
+        	y_min = min(y,[],'all', 'omitnan');
+        else
+            % Calculate bounds using slope + thresholds
+            line = @(x) slope*x + inter;
+            % Slope is in terms of x
+            y_max = line(x(idx)) + above;
+            y_min = line(x(idx)) - below;
+        end
+        
+        z_max = max(z,[],'all', 'omitnan');
+        z_min = min(z,[],'all', 'omitnan');
+        
+        plot2dnumeric(y,z,y_min,y_max,z_min,z_max);
     end
 else
     fprintf("Error: %s \'%s\'\n", "Invalid Option", plot_type)
