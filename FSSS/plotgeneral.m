@@ -5,7 +5,7 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-%    'fsss_2021' (fsss_2021 currently doesn't work), 'fsss_pivmat'
+%    'fsss_pivmat'
 plot_type = 'fsss_numeric';
 % * General plot properties: 
 dd = 0.1;         % dd:      The step between min and max of x and y
@@ -111,47 +111,6 @@ elseif isequal(plot_type, 'fsss_pivmat')
     h.w = arrayfun(@(z) z - hg, h.w);
     
     showf(h, 'surf');
-    
-elseif isequal(plot_type, 'fsss_2021')
-    % Li, Avila, and Xu's 2021 FSSS method
-    % Notes:
-    %  - Doesn't account for attaching pattern to the outer bottom part of
-    %    the water table (maybe adopt Moisy's modification?)
-    %  - For equation 2 is it (.* ./) or (* /)?
-    %  - Install optimization toolbox
-    
-    % Calculate beta
-    % Import the data
-    dr1 = loadvec("dr_empty_still.txt");
-    % Flip x and y due to loadvec
-    dr1.vx = transpose(dr1.vx);
-    dr1.vy = transpose(dr1.vy);
-    % Swap positions of rows for the gradient matrices
-    dr1.vx = swaprows(dr1.vx);
-    dr1.vy = swaprows(dr1.vy);
-    
-    beta = dr1;
-    beta.vx = -dr1.vx/(h0*(1-n/np));
-    beta.vy = -dr1.vy/(h0*(1-n/np));
-    
-    % Calculate surface height
-    % Import the data
-    dr2 = loadvec("dr_still_moving.txt");
-    % Flip x and y due to loadvec
-    dr2.vx = transpose(dr2.vx);
-    dr2.vy = transpose(dr2.vy);
-    % Swap positions of rows for the gradient matrices
-    dr2.vx = swaprows(dr2.vx);
-    dr2.vy = swaprows(dr2.vy);
-    
-    % Initial guess of still water height
-    h_guess = ones(size(dr2.vx)).*h0;
-    
-    % fsolve options from
-    % https://www.mathworks.com/help/optim/ug/fsolve.html
-    %options = optimoptions('fsolve','Display','off');
-    fun = @(h) fsss2021(h, n, np, beta, dr2);
-    fsolve(fun,h_guess);
 elseif isequal(plot_type,'fsss_analytic') || ...
         isequal(plot_type,'fsss_numeric') || ...
         isequal(plot_type,'fsss_numeric_contour') || ...
