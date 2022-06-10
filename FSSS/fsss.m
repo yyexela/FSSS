@@ -19,9 +19,6 @@ factor = 1/(alpha * hp) - 1/H;   % Equation (13)
 % Get the proper height scaling
 scale = abs(dr.x(1) - dr.x(2));
 
-fprintf('factor is %f\n', -factor)
-fprintf('scale is %f\n', scale)
-
 % Find the gradient (just above equation (18))
 xi = dr;
 xi.vx = -xi.vx*factor;

@@ -6,13 +6,13 @@ function [m] = swapcols(m1)
 %   Output:
 %     m:        The input matrix but the row positions are reversed
 
-% Get the dimenstions of the input matrix
+% Get the dimensions of the input matrix
 [nx, ny] = size(m1);
 
 % Create the output matrix
 m = zeros(nx, ny);
 
-% Build each successive row
-for i = 1:nx
-    m(:,i) = m1(:,nx-i+1);
+% Build each successive column
+for i = 1:ny
+    m(:,i) = m1(:,ny-i+1);
 end

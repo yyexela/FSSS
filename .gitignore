@@ -1,4 +1,6 @@
 *.asv
 intgrad2.m
-Experiment Images/**
-OpenPIV/.ipynb_checkpoints/**
+OpenPIV/.*ipynb_checkpoints/**
+OpenPIV/**/*.txt
+OpenPIV/__pycache__/**
+Extra/.*ipynb_checkpoints/**

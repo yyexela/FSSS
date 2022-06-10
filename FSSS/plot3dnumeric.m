@@ -15,6 +15,40 @@ function plot3dnumeric(z, x, y, x_min, x_max, y_min, y_max, zar)
 % Transform x and y into a meshgrid output if needed
 [xx, yy] = getmeshgrid(x, y);
 
+% SHADING OPTION
+
+s = [210 -25];
+k = [.65 .4 .3 10];
+
+% Create the figure
+p = surfl(xx,yy,z, s, k);
+
+colormap bone
+shading interp
+
+% Modify the figure's properties
+p.EdgeColor = 'none';
+ax = p.Parent;
+
+max_z = max(z,[],'all', 'omitnan');
+min_z = min(z,[],'all', 'omitnan');
+diff_z = max_z - min_z;
+
+ax.XLim = [x_min, x_max];
+ax.YLim = [y_min, y_max];
+ax.ZLim = [min_z-diff_z*(1/5),max_z+diff_z*(1/5)];
+
+xlabel('x (mm)')
+ylabel('y (mm)')
+zlabel('h (mm)')
+
+ax.DataAspectRatioMode = 'manual';
+ax.DataAspectRatio = [1,1,zar];
+ax.FontSize = 12;
+
+return
+
+% ORIGINAL SURF OPTION
 % Create the figure
 p = surf(xx,yy,z);
 
@@ -22,20 +56,21 @@ p = surf(xx,yy,z);
 p.EdgeColor = 'none';
 ax = p.Parent;
 
-max_z = max(z,[],'all');
-min_z = min(z,[],'all');
+max_z = max(z,[],'all', 'omitnan');
+min_z = min(z,[],'all', 'omitnan');
 diff_z = max_z - min_z;
 
 ax.XLim = [x_min, x_max];
 ax.YLim = [y_min, y_max];
 ax.ZLim = [min_z-diff_z*(1/5),max_z+diff_z*(1/5)];
 
-xlabel('x')
-ylabel('y')
-zlabel('z')
+xlabel('x (mm)')
+ylabel('y (mm)')
+zlabel('h (mm)')
 
 ax.DataAspectRatioMode = 'manual';
 ax.DataAspectRatio = [1,1,zar];
+ax.FontSize = 12;
 
 colorbar;
 

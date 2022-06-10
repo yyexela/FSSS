@@ -5,8 +5,8 @@ function drf = removemean(dr)
 %   Output:
 %     drf:      The displacement field with the mean subtracted
 
-mean_x = mean(dr.vx, 'all');
-mean_y = mean(dr.vy, 'all');
+mean_x = mean(dr.vx, 'all', 'omitnan');
+mean_y = mean(dr.vy, 'all', 'omitnan');
 
 drf = dr;
 
