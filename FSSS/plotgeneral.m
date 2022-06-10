@@ -9,7 +9,7 @@
 plot_type = 'fsss_edge';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 25;       % x_mixn:  Lower bound on the x axis to graph
+x_min = 25;       % x_min:   Lower bound on the x axis to graph
 x_max = 60;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
