@@ -275,14 +275,20 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             y_max = line(x(idx)) + above;
             y_min = line(x(idx)) - below;
             % Shrink the arrays for findpeaks (y is decreasing)
-            min_idx = find(~(y>y_min),1);
-            max_idx = find(~(y>y_max),1)-1; % -1 as padding
-            y = y(max_idx:min_idx);
-            z = z(max_idx:min_idx);
+            right_idx = find(~(y>y_min),1);
+            left_idx = find(~(y>y_max),1)-1; % -1 as padding
+            y = y(left_idx:right_idx);
+            z = z(left_idx:right_idx);
         end
         
         z_max = max(z,[],'all', 'omitnan');
         z_min = min(z,[],'all', 'omitnan');
+        
+        % Get maximum and minimum values and locations
+        [min_val, min_idx, max_val, max_idx] = getminandmax(z);
+        
+        % Write the result to a file
+        %writelines(["" + x(idx) + " " + ],filenm + "_min.txt",WriteMode="append")
         
         plot2dnumeric(y,z,y_min,y_max,z_min,z_max);
     end
