@@ -258,11 +258,18 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
         plotcontournumeric(h, x, y, dd, vecnum, scale)
     elseif isequal(plot_type, 'fsss_edge')
+        % Open file we'll be writing to
+        min_file = fopen(filenm + "_min.txt",'w');
+        max_file = fopen(filenm + "_max.txt",'w');
+        
+        % Line formatting for each set of coordinates
+        formatSpec = '%f %f %f\n';
+        
         % X-axis in plot is the y-axis in FSSS
         % Height of the plot is z
         % Get first index of x greater than x_min (slice FSSS along x-axis)
         idx = find(x > x_min, 1);
-        z = h(:,idx);
+        z = h(:,idx).';
         
         % Get the upper and lower bound of the plot's x-axis
         if full
@@ -288,9 +295,13 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         [min_val, min_idx, max_val, max_idx] = getminandmax(z);
         
         % Write the result to a file
-        %writelines(["" + x(idx) + " " + ],filenm + "_min.txt",WriteMode="append")
+        fprintf(min_file, formatSpec, [x(idx), y(min_idx), min_val]);
+        fprintf(max_file, formatSpec, [x(idx), y(max_idx), max_val]);
+
+        %plot2dnumeric(y,z,y_min,y_max,z_min,z_max);
         
-        plot2dnumeric(y,z,y_min,y_max,z_min,z_max);
+        fclose(min_file);
+        fclose(max_file);
     end
 else
     fprintf("Error: %s \'%s\'\n", "Invalid Option", plot_type)

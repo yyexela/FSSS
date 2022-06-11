@@ -19,6 +19,6 @@ ax = p.Parent;
 ax.XLim = [x_min, x_max];
 ax.YLim = [y_min, y_max];
 
-xlabel('x (mm)')
-ylabel('y (mm)')
+xlabel('y (mm)')
+ylabel('z (mm)')
 ax.FontSize = 12;

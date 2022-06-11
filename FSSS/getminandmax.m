@@ -13,13 +13,14 @@ max_idx = locs(1);
 max_val = pks(1);
 min_idx = locs(1);
 min_val = pks(1);
-for i = locs.'
-    if max_val < z(i)
-        max_idx = i;
-        max_val = z(i);
+for i=1:size(locs,2)
+    idx = locs(i);
+    if max_val < z(idx)
+        max_idx = idx;
+        max_val = z(idx);
     end
-    if min_val > z(i)
-        min_idx = i;
-        min_val = z(i);
+    if min_val > z(idx)
+        min_idx = idx;
+        min_val = z(idx);
     end
 end
