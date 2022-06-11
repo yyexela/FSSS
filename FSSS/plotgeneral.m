@@ -269,37 +269,45 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         % Height of the plot is z
         % Get first index of x greater than x_min (slice FSSS along x-axis)
         idx = find(x > x_min, 1);
-        z = h(:,idx).';
         
-        % Get the upper and lower bound of the plot's x-axis
-        if full
-        	y_max = max(y,[],'all', 'omitnan');
-        	y_min = min(y,[],'all', 'omitnan');
-        else
-            % Calculate bounds using slope + thresholds
-            line = @(x) slope*x + inter;
-            % Slope is in terms of x
-            y_max = line(x(idx)) + above;
-            y_min = line(x(idx)) - below;
-            % Shrink the arrays for findpeaks (y is decreasing)
-            right_idx = find(~(y>y_min),1);
-            left_idx = find(~(y>y_max),1)-1; % -1 as padding
-            y = y(left_idx:right_idx);
-            z = z(left_idx:right_idx);
-        end
-        
-        z_max = max(z,[],'all', 'omitnan');
-        z_min = min(z,[],'all', 'omitnan');
-        
-        % Get maximum and minimum values and locations
-        [min_val, min_idx, max_val, max_idx] = getminandmax(z);
-        
-        % Write the result to a file
-        fprintf(min_file, formatSpec, [x(idx), y(min_idx), min_val]);
-        fprintf(max_file, formatSpec, [x(idx), y(max_idx), max_val]);
+        while x(idx) < x_max
+            z_slice = h(:,idx).';
 
-        %plot2dnumeric(y,z,y_min,y_max,z_min,z_max);
-        
+            % Get the upper and lower bound of the plot's x-axis
+            if full
+                y_max = max(y,[],'all', 'omitnan');
+                y_min = min(y,[],'all', 'omitnan');
+                y_slice = y;
+            else
+                % Calculate bounds using slope + thresholds
+                line = @(x) slope*x + inter;
+                % Slope is in terms of x
+                y_max = line(x(idx)) + above;
+                y_min = line(x(idx)) - below;
+                % Shrink the arrays for findpeaks (y is decreasing)
+                right_idx = find(~(y>y_min),1);
+                left_idx = find(~(y>y_max),1)-1; % -1 as padding
+                if left_idx == 0
+                    left_idx = 1;
+                end
+                y_slice = y(left_idx:right_idx);
+                z_slice = z_slice(left_idx:right_idx);
+            end
+
+            z_max = max(z_slice,[],'all', 'omitnan');
+            z_min = min(z_slice,[],'all', 'omitnan');
+
+            % Get maximum and minimum values and locations
+            [min_val, min_idx, max_val, max_idx] = getminandmax(z_slice);
+
+            % Write the result to a file
+            fprintf(min_file, formatSpec, [x(idx), y_slice(min_idx), min_val]);
+            fprintf(max_file, formatSpec, [x(idx), y_slice(max_idx), max_val]);
+
+            % Go to next slice
+            idx = idx + 1;
+        end
+            
         fclose(min_file);
         fclose(max_file);
     end
