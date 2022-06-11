@@ -5,12 +5,12 @@
 % * What to plot:
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
-%    'fsss_pivmat', 'fsss_edge'
-plot_type = 'fsss_edge';
+%    'fsss_pivmat', 'fsss_continuous_edge', 'fsss_edge'
+plot_type = 'fsss_continuous_edge';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 25;       % x_min:   Lower bound on the x axis to graph
-x_max = 100;      % x_max:   Upper bound on the x axis to graph
+x_min = 32;       % x_min:   Lower bound on the x axis to graph
+x_max = 82;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
@@ -47,7 +47,7 @@ hg = 5.5;         % hg:      Bottom layer height (mm)
 ng = 1.49;        % ng:      Bottom layer index of refraction
                   %          (1.33 water 1.49 acrylic, 1.56 glass)
 %    * Processing options
-rm_m_d = 1;       % rm_m_d:  Subtract the mean displacement field before
+rm_m_d = 0;       % rm_m_d:  Subtract the mean displacement field before
                   %          FSSS integration
 rm_pln = 0;       % rm_pln:  Subtract the plane of best fit (performed
                   %          after rm_m_d)
@@ -124,7 +124,8 @@ elseif isequal(plot_type,'fsss_analytic') || ...
         isequal(plot_type,'fsss_numeric_contour') || ...
         isequal(plot_type,'fsss_analytic_contour') || ...
         isequal(plot_type,'displacement_field') || ...
-        isequal(plot_type,'fsss_edge')
+        isequal(plot_type,'fsss_edge') || ...
+        isequal(plot_type,'fsss_continuous_edge')
     
     if isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
@@ -258,6 +259,40 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             isequal(plot_type, 'fsss_analytic_contour')
         plotcontournumeric(h, x, y, dd, vecnum, scale)
     elseif isequal(plot_type, 'fsss_edge')
+        % X-axis in plot is the y-axis in FSSS
+        % Height of the plot is z
+        % Get first index of x greater than x_min (slice FSSS along x-axis)
+        idx = find(x > x_min, 1);
+        z_slice = h(:,idx).';
+
+        % Get the upper and lower bound of the plot's x-axis
+        if full
+            y_max = max(y,[],'all', 'omitnan');
+            y_min = min(y,[],'all', 'omitnan');
+            y_slice = y;
+        else
+            % Calculate bounds using slope + thresholds
+            line = @(x) slope*x + inter;
+            % Slope is in terms of x
+            y_max = line(x(idx)) + above;
+            y_min = line(x(idx)) - below;
+            % Shrink the arrays for findpeaks (y is decreasing)
+            right_idx = find(~(y>y_min),1);
+            left_idx = find(~(y>y_max),1)-1; % -1 as padding
+            if left_idx == 0
+                left_idx = 1;
+            end
+            y_slice = y(left_idx:right_idx);
+            z_slice = z_slice(left_idx:right_idx);
+        end
+
+        z_max = max(z_slice,[],'all', 'omitnan');
+        z_min = min(z_slice,[],'all', 'omitnan');
+
+        % Get maximum and minimum values and locations
+        [min_val, min_idx, max_val, max_idx] = getminandmax(z_slice);
+        plot2dnumeric(y_slice,z_slice,y_min,y_max,z_min,z_max)
+    elseif isequal(plot_type, 'fsss_continuous_edge')
         % Open file we'll be writing to
         min_file = fopen(filenm + "_min.txt",'w');
         max_file = fopen(filenm + "_max.txt",'w');
