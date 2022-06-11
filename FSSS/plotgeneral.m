@@ -6,10 +6,10 @@
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
 %    'fsss_pivmat', 'fsss_continuous_edge', 'fsss_edge'
-plot_type = 'fsss_continuous_edge';
+plot_type = 'fsss_edge';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 32;       % x_min:   Lower bound on the x axis to graph
+x_min = 25;       % x_min:   Lower bound on the x axis to graph
 x_max = 82;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
@@ -23,7 +23,7 @@ vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 slope = 0.7086833288739993;
                   % inter:   Y-intercept of line of best fit
 inter = 10.962592982053945;
-full = 0;         % full:    Ignore y_min/y_max
+full = 1;         % full:    Ignore y_min/y_max
 below = 3;        % below: threshold below line of best fit
 above = 10;       % above: threshold above line of best fit
 % * fsss_* properties:
