@@ -10,7 +10,7 @@ plot_type = 'fsss_edge';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
 x_min = 25;       % x_min:   Lower bound on the x axis to graph
-x_max = 60;       % x_max:   Upper bound on the x axis to graph
+x_max = 100;      % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
@@ -24,7 +24,7 @@ slope = 0.7086833288739993;
                   % inter:   Y-intercept of line of best fit
 inter = 10.962592982053945;
 full = 0;         % full:    Ignore y_min/y_max
-below = 10;       % below: threshold below line of best fit
+below = 3;        % below: threshold below line of best fit
 above = 10;       % above: threshold above line of best fit
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
@@ -274,6 +274,11 @@ elseif isequal(plot_type,'fsss_analytic') || ...
             % Slope is in terms of x
             y_max = line(x(idx)) + above;
             y_min = line(x(idx)) - below;
+            % Shrink the arrays for findpeaks (y is decreasing)
+            min_idx = find(~(y>y_min),1);
+            max_idx = find(~(y>y_max),1)-1; % -1 as padding
+            y = y(max_idx:min_idx);
+            z = z(max_idx:min_idx);
         end
         
         z_max = max(z,[],'all', 'omitnan');
