@@ -6,11 +6,11 @@
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
 %    'fsss_pivmat', 'fsss_continuous_edge', 'fsss_edge'
-plot_type = 'fsss_edge';
+plot_type = 'fsss_continuous_edge';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
-x_min = 25;       % x_min:   Lower bound on the x axis to graph
-x_max = 82;       % x_max:   Upper bound on the x axis to graph
+x_min = 30;       % x_min:   Lower bound on the x axis to graph
+x_max = 140;       % x_max:   Upper bound on the x axis to graph
 y_min = 0;        % y_min:   Lower bound on the y axis to graph
 y_max = 40;       % y_max:   Upper bound on the y axis to graph
 % * plot3d properties:
@@ -20,17 +20,17 @@ scale = 8;        % scale:   Adjusts the length of the gradient arrows
 vecnum = 20;      % vecnum:  Approx. # of gradient vectors along an axis
 % * fsss_edge properties (x_min and x_max used above):
                   % slope:   Slope of line of best fit
-slope = 0.7086833288739993;
+slope = 0.7183107187175792;
                   % inter:   Y-intercept of line of best fit
-inter = 10.962592982053945;
-full = 1;         % full:    Ignore y_min/y_max
-below = 3;        % below: threshold below line of best fit
-above = 10;       % above: threshold above line of best fit
+inter = -2.3363564273654585;
+full = 0;         % full:    Ignore y_min/y_max
+below = 4;        % below: threshold below line of best fit
+above = 13;       % above: threshold above line of best fit
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
 filenm = "s13_m13";
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 12/trial 2/cropped/moving/13.JPG";
+raw_img = "../../Experiment 12/trial 3/cropped/moving/13.JPG";
 seconds = 15;
 %    * Experimental values
 ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
@@ -334,11 +334,15 @@ elseif isequal(plot_type,'fsss_analytic') || ...
 
             % Get maximum and minimum values and locations
             [min_val, min_idx, max_val, max_idx] = getminandmax(z_slice);
-
-            % Write the result to a file
-            fprintf(min_file, formatSpec, [x(idx), y_slice(min_idx), min_val]);
-            fprintf(max_file, formatSpec, [x(idx), y_slice(max_idx), max_val]);
-
+            
+            % Filter before writing to file, make sure max is above min and
+            %   valid results
+            if (min_idx ~= -1) && (y_slice(min_idx) < y_slice(max_idx))
+                % Write the result to a file
+                fprintf(min_file, formatSpec, [x(idx), y_slice(min_idx), min_val]);
+                fprintf(max_file, formatSpec, [x(idx), y_slice(max_idx), max_val]);
+            end
+            
             % Go to next slice
             idx = idx + 1;
         end
