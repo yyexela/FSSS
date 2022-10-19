@@ -88,7 +88,5 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 ## Extra
 
 * We'll be discussing `overlay.ipynb` in this section.
-* This is a file I created to automate making [this image]() from [this image]() using [this data file](https://drive.google.com/file/d/1g15ysiZQTiID185kKntLsu0sWJKHG0Q1/view?usp=sharing).
-* The final image is an image of data points I collected on the harmonic edge, soliton edge, and wedge itself with lines fitted to them. The notebook also records the angles of those lines to files.
+* The output is an image of data points I collected on the harmonic edge, soliton edge, and wedge itself with lines fitted to them. The notebook also records the angles of those lines to files.
 * Please see [Experiment 12](https://drive.google.com/drive/folders/1MctLo6h8wRmsJgD5uGMNowbEexO-CRRa?usp=sharing) for the directory structure expected.
-* Please see [this file]() for the expected format of `raw_data`.
