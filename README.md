@@ -1,3 +1,11 @@
+# Files
+
+`Extra/`: Contains a notebook to generate and visualize the harmonic edge, soliton edge, and wedge itself. See **Extra** below.
+`FSSS/`: Contains the MATLAB code to run the FS-SS algorithm. See **FSSS** below.
+`Image Preprocessing/`: Contains MATLAB code to align images. See **Pre-Processing Images** below.
+`OpenPIV/`: Contains Python code to generate the displacement field for FS-SS. See **Displacement Field** below.
+`Reports/`: Contains my Bi-Weekly reports.
+
 # Requirements
 * MATLAB (I used R2021a on both Linux and Windows)
 * Make sure [pivmat](http://www.fast.u-psud.fr/pivmat/) is installed so that the `loadvec` function works directly from the MATLAB terminal.
