@@ -46,7 +46,7 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 
 ### Considerations
 * Try to reduce vibrations for the camera as much as possible, since slight deviations between images will result in large errors in FSSS.
-* If the wedge is in the moving image, outline the area of the wedge in the moving image, fill that area with pure red (#FF00000) and make sure that same area is also red in the still image. For example, see [here]().
+* If the wedge is in the moving image, outline the area of the wedge in the moving image, fill that area with pure red (#FF00000) and make sure that same area is also red in the still image.
 
 ## Pre-Processing Images
 * It is impossible to have two images where there is no deviation between the two.
