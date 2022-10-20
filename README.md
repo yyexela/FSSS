@@ -1,3 +1,7 @@
+# Instructions
+
+These instructions are for members of the Dispersive Hydrodynamics Lab to use the software I developed for reconstructing three dimensional models of gravity capillary waves through the Free-Surface Synthetic Schlieren method.
+
 # Files
 
 `Extra/`: Contains a notebook to generate and visualize the harmonic edge, soliton edge, and wedge itself. See **Extra** below.  
@@ -11,10 +15,6 @@
 * Make sure [pivmat](http://www.fast.u-psud.fr/pivmat/) is installed so that the `loadvec` function works directly from the MATLAB terminal.
 * Also make sure that the `/FSSS` folder has the file `intgrad2.m` downloaded from the [MATLAB file exchange](https://www.mathworks.com/matlabcentral/fileexchange/9734-inverse-integrated-gradient?s_tid=srchtitle) or copied over from the private directory in [pivmat](http://www.fast.u-psud.fr/pivmat/)'s toolbox.
 * We'll also be using [Jupyter](https://jupyter.org/) notebooks.
-
-# Instructions
-
-These instructions are for members of the Dispersive Hydrodynamics Lab to use the software I developed for reconstructing three dimensional models of gravity capillary waves through the Free-Surface Synthetic Schlieren method.
 
 ## Physical set-up
 * This section requires you to be in the Dispersive Hydrodynamics Lab.
