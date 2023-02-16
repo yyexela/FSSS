@@ -60,10 +60,10 @@ use one pump (left one), let the reservoir (at the output of the pumps) fill up 
 * It is impossible to have two images where there is no deviation between the two.
 * So, we want to use [Image Registration](https://www.mathworks.com/help/images/ref/fitgeotrans.html) to re-align the images as best as possible.
 * The file `/ImageProcessing/ProjectionDistortion.m` contains code to perform a fit for your still and moving images.
-* First, crop the still and moving image so only the dot pattern is visible (a wedge can be on the dot pattern, that's OK).
-* Then, in `ProjectionDistortion.m` read in a pair of still and moving images you are interested in aligning and select *fixed points* between the two images (this is why we have zip-ties in the image, since we don't expect them to differ in location between images).
+* In `ProjectionDistortion.m` read in a pair of still and moving images you are interested in aligning and select *fixed points* between the two images (this is why we have zip-ties in the image, since we don't expect them to differ in location between images).
 * Close the window when you're done and the program will spit out your still and moving image, except they're aligned better.
 * `/ImageProcessing/red_cyan.m` shows the two images overlayed, getting a better sense of how well the image registration worked. Similar code is run after you do the fit in `/ImageProcessing/ProjectionDistortion.m`.
+* Then, crop the images so that only the dot patterns are showing, having the wedge in view is OK.
 
 ### Considerations
 * Make sure the directories you read and write from are what you expect.
