@@ -1,22 +1,23 @@
-skip_option = 0;
+% if "saved_vars.mat" exists, then we can just load our
+% "feature selection" points and not have to re-do everything
+% (saved via 'save(filename)' and loaded with 'load(filename)'
+skip_option = 1;
 
 % For directories, ensure '/' is at the end
-top_dir = "../../Experiment 12/";
-still_dir = top_dir + "trial 1/";
-trial = "11";
-seconds = "10";
-moving_dir = top_dir + "trial " + trial + "/";
+top_dir = "../Example_Experiment/";
+still_dir = top_dir;
+moving_dir = top_dir;
 extension = ".JPG";
 
 % This is the reference image for all other images
-ref_img_name = seconds;
+ref_img_name = "IMG_0084";
 % This is the image we are transforming to fit ref_img_name
-trs_img_name = seconds;
+trs_img_name = "IMG_0107";
 
 % Read images (ref = reference, trs = the one to transform)
 % Converts images to grayscale
-ref_in_path = convertStringsToChars(fullfile(still_dir + "raw/", ref_img_name + extension));
-trs_in_path = convertStringsToChars(fullfile(moving_dir + "raw/", trs_img_name + extension));
+ref_in_path = convertStringsToChars(fullfile(still_dir + "Raw/", ref_img_name + extension));
+trs_in_path = convertStringsToChars(fullfile(moving_dir + "Raw/", trs_img_name + extension));
 ref = rgb2gray(imread(ref_in_path));
 trs = rgb2gray(imread(trs_in_path));
 
@@ -39,12 +40,12 @@ Rfixed = imref2d(size(ref));
 reg = imwarp(trs,t,'OutputView',Rfixed);
 
 % Write to file
-ref_out_path = convertStringsToChars(fullfile(still_dir + "aligned/", ref_img_name + "_ref_nrs" + extension));
-reg_out_path = convertStringsToChars(fullfile(moving_dir + "aligned/", trs_img_name + "_reg_nrs" + extension));
+ref_out_path = convertStringsToChars(fullfile(still_dir + "Aligned/", ref_img_name + "_ref_nrs" + extension));
+reg_out_path = convertStringsToChars(fullfile(moving_dir + "Aligned/", trs_img_name + "_reg_nrs" + extension));
 imwrite(ref, ref_out_path)
 imwrite(reg, reg_out_path)
 
 imshowpair(ref,reg,'ColorChannels','red-cyan');
 
-filename = seconds + "_" + trial;
+filename = 'saved_vars';
 save(convertStringsToChars(filename))

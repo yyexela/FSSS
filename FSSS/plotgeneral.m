@@ -6,7 +6,7 @@
 %    'plot_2d', 'plot_3d', 'plot_contour', 'fsss_analytic', 'fsss_numeric'
 %    'displacement_field', 'fsss_numeric_contour', 'fsss_analytic_contour'
 %    'fsss_pivmat', 'fsss_continuous_edge', 'fsss_edge'
-plot_type = 'fsss_continuous_edge';
+plot_type = 'fsss_numeric';
 % * General plot properties (may be overwritten): 
 dd = 0.1;         % dd:      The step between min and max of x and y
 x_min = 30;       % x_min:   Lower bound on the x axis to graph
@@ -28,10 +28,10 @@ below = 4;        % below: threshold below line of best fit
 above = 13;       % above: threshold above line of best fit
 % * fsss_* properties:
                   % filenm:  Name of the vector field file from OpenPIV
-filenm = "s13_m13";
+filenm = "example";
                   % raw_img: Used in get_map for wedge location
-raw_img = "../../Experiment 12/trial 3/cropped/moving/13.JPG";
-seconds = 15;
+raw_img = "../Example_Experiment/Colored/IMG_0107.png";
+seconds = 14;
 %    * Experimental values
 ppmm = 17.3322;   % ppmm:    Pixels per millimeter in used in OpenPIV
 np = 1.333;       % np:      Pattern-side index of refraction

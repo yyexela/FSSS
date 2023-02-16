@@ -1,0 +1,11 @@
+Images from Experiment 9 Trial 7
+
+gate: 1 rubber
+time from off to photo: 14s
+method: use one pump, let the reservoir fill up to max height, disconnect left pump, start timer and disconnect pump at the same time, take photos at 14 seconds
+
+water height in still image: 2.5mm
+
+no flow straightener
+
+Still images copied from trial 5
